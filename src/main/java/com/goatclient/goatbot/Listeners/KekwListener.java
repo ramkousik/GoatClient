@@ -9,7 +9,6 @@ public class KekwListener extends ListenerAdapter {
 
     public static final String MENTIONED_USER_ID = "<@803261112883216384>";
 
-    public static final String MENTIONED_USER_UNKNOWN = "<@827584632262230046>";
 
     public static final Emoji KEKW_EMOJI = Emoji.fromFormatted("<:KEKW:1055759631760232519>");
 
@@ -17,7 +16,7 @@ public class KekwListener extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         String message = event.getMessage().getContentRaw();
 
-        if (message.contains(MENTIONED_USER_ID) || message.contains(MENTIONED_USER_UNKNOWN)) {
+        if (message.contains(MENTIONED_USER_ID)) {
             event.getMessage().addReaction(KEKW_EMOJI).queue();
         }
     }
