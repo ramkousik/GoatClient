@@ -14,7 +14,6 @@ import javax.security.auth.login.LoginException;
 /**
  * JDA-5.0.0 Discord Bot for GOAT Client MineCraft Server.
  * This is the main class where we initialize our bot.
- *
  * @author Ram Kousik
  */
 
@@ -50,7 +49,11 @@ public class GoatBot {
     public ShardManager getShardManager() {
         return shardManager;
     }
-
+    /** In order to host this bot do the following:
+     * Firstly download the updated JAR file of the project.
+     * Check the "discloud.config" file and configure accordingly.
+     *  Join discloud server and perform the following command -> .upload or .up
+     */
     public static void main(String[] args) {
         try {
             GoatBot bot = new GoatBot();
