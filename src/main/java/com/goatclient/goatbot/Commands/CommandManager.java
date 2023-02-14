@@ -1,6 +1,9 @@
 package com.goatclient.goatbot.Commands;
 
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
@@ -20,23 +23,46 @@ import java.util.List;
 
 public class CommandManager extends ListenerAdapter {
 
+    public static String getTitle() {
+        return title;
+    }
+
+    public static StringBuilder getDevString() {
+        return devString;
+    }
+
+    public static String getDescription() {
+        return description;
+    }
+
+    private static String title;
+
+    private static StringBuilder devString;
+
+    private static String description;
     private String WEBSITE_LATEST = "https://workupload.com/file/2hrA2XWH4AP";
 
     private String WEBSITE_1_0_0 = "https://workupload.com/file/2hrA2XWH4AP";
     private String LABEL = "DOWNLOAD HERE";
-//    private Long channelId = 1056438063477305415L;
+    private Long channelId = 1063793935635456101L;
     private static final String v1 = "1.0.0";
 
-    private String checkMark = ":white_check_mark:";
+    public static String getCheckMark() {
+        return checkMark;
+    }
+
+    private static String checkMark = ":white_check_mark:";
+
+    private Emoji whiteCheckMark = Emoji.fromUnicode("✅");
     /**
      * This class handles four of the slash commands.
-     * It overides onSlashCommandInteraction method to handle four commands.
+     * It overrides onSlashCommandInteraction method to handle four commands.
       */
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         String command = event.getName();
-        //Button downloadButton = Button.link(WEBSITE, LABEL);
+
 
         /**
          * When /credits command is performed the following data is displayed.
@@ -128,61 +154,70 @@ public class CommandManager extends ListenerAdapter {
 //                    "\n" +
 //                    "**React to **" + checkMark + " **to claim **").queue();
 
-                OptionMapping titleOption = event.getOption("title");
-                OptionMapping userOption = event.getOption("user");
-                OptionMapping descriptionOption = event.getOption("description");
+            MessageChannel messageChannel = event.getMessageChannel();
 
-                String title = titleOption.getAsString();
-                String userString = userOption.getAsString();
-                String description = descriptionOption.getAsString();
+            if (messageChannel.getIdLong() == channelId) {
+                if (event.getMember().getRoles().stream().anyMatch(role -> role.getId().equals("1056231583125876806")) || event.getMember().getRoles().stream().anyMatch(role -> role.getId().equals("1046533127436238868"))) {
 
-                StringBuilder devString = new StringBuilder("Devs to work on: ");
-                if (!userString.equals("none")) {
-                    String[] userMentions = userString.split(" ");
-                    for (String userMention : userMentions) {
-                        devString.append(userMention).append(" ");
-                    }
-                } else {
-                    devString.append("Not specified");
-                }
+                    OptionMapping titleOption = event.getOption("title");
+                    OptionMapping userOption = event.getOption("user");
+                    OptionMapping descriptionOption = event.getOption("description");
 
-                Message sentMessage= event.getChannel().sendMessage("> **" + title + "**" + "\n" +
-                        "\n" +
-                        devString + "\n" +
-                        "\n" +
-                        "The features:" + "\n" +
-                        "\n" +
-                        description + "\n" +
-                        "\n" +
-                        "**—————————————————**\n" +
-                        "\n" +
-                        "**React to **" + checkMark + " **to claim **").complete();
+                    title = titleOption.getAsString();
+                    String userString = userOption.getAsString();
+                    description = descriptionOption.getAsString();
 
-                sentMessage.addReaction(Emoji.fromUnicode("\u2705")).queue();
-                //event.reply("** The Request **");
-                event.getJDA().addEventListener(new ListenerAdapter() {
-                    @Override
-                    public void onMessageReactionAdd(MessageReactionAddEvent event) {
-                        if(!event.getUser().isBot() && event.getMessageId().equals(sentMessage.getId())) {
-                            if(event.getReaction().equals("\u2705")) {
-                                sentMessage.editMessage("> " + title + "" + "\n" +
-                                        "\n" +
-                                        devString + "\n" +
-                                        "\n" +
-                                        "The features:" + "\n" +
-                                        "\n" +
-                                        description + "\n" +
-                                        "\n" +
-                                        "—————————————————\n" +
-                                        "\n" +
-                                        "Claimed by " + event.getUser().getAsMention()).queue();
-                            }
+                    devString = new StringBuilder("Devs to work on: ");
+                    if (!userString.equals("none")) {
+                        String[] userMentions = userString.split(" ");
+                        for (String userMention : userMentions) {
+                            devString.append(userMention).append(" ");
                         }
+                    } else {
+                        devString.append("Not specified");
                     }
-                });
+
+                    event.reply("> **" + title + "**" + "\n" +
+                            "\n" +
+                            devString + "\n" +
+                            "\n" +
+                            "The features:" + "\n" +
+                            "\n" +
+                            description + "\n" +
+                            "\n" +
+                            "**—————————————————**\n" +
+                            "\n" +
+                            "**React to **" + checkMark + " **to claim **").queue();
 
 
+                    //event.reply("** The Request **");
+                    //            event.getJDA().addEventListener(new ListenerAdapter() {
+                    //                @Override
+                    //                public void onMessageReactionAdd(MessageReactionAddEvent event) {
+                    //                    if(!event.getUser().isBot() && event.getMessageId().equals(sentMessage.getId())) {
+                    //                        if(event.getReaction().equals("✅")) {
+                    //                            sentMessage.editMessage("> " + title + "" + "\n" +
+                    //                                    "\n" +
+                    //                                    devString + "\n" +
+                    //                                    "\n" +
+                    //                                    "The features:" + "\n" +
+                    //                                    "\n" +
+                    //                                    description + "\n" +
+                    //                                    "\n" +
+                    //                                    "—————————————————\n" +
+                    //                                    "\n" +
+                    //                                    "Claimed by " + event.getUser().getAsMention()).queue();
+                    //                        }
+                    //                    }
+                    //                }
+                    //            });
+
+                } else {
+                    event.reply("Sorry you must be Lead-Dev-Goat or Admin-Goat to perform this action").queue();
+                }
             }
+
+        }
     }
 
     @Override

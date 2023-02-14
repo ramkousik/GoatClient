@@ -2,6 +2,7 @@ package com.goatclient.goatbot;
 
 import com.goatclient.goatbot.Commands.CommandManager;
 import com.goatclient.goatbot.Listeners.KekwListener;
+import com.goatclient.goatbot.Listeners.RequestListener;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -39,7 +40,7 @@ public class GoatBot {
 
         shardManager = builder.build();
 
-        shardManager.addEventListener(new KekwListener(), new CommandManager());
+        shardManager.addEventListener(new KekwListener(), new CommandManager(), new RequestListener());
     }
 
     public Dotenv getConfig() {
