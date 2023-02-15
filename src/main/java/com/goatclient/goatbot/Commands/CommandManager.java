@@ -92,7 +92,7 @@ public class CommandManager extends ListenerAdapter {
                     "    IntelliJ IDEA\n" +
                     "\n" +
                     "Discord Bot coded by:\n" +
-                    "    Odin\n" +
+                    "    Bl4ckye\n" +
                     "\n" +
                     "Discord bot hosted on:\n" +
                     "    Discloud\n" +
